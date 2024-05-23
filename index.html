@@ -4,13 +4,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HTML5 Boilerplate</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Rock Paper Scissors</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>Page Title</h1>
+    <div class="content">
+      <button id="startgame" class="gamestart" role="button">Play Game</button>
+      <div id="game-buttons" class="hidden">
+        <button class="game-button" id="rock" data-choice="rock">Rock</button>
+        <button class="game-button" id="paper" data-choice="paper">Paper</button>
+        <button class="game-button" id="scissors" data-choice="scissors">Scissors</button>
+      </div>
+    <div id="game-info" class="hidden">
+      <p id="timer">3</p>
+      <p id="result"></p>
+      <p id="score">You: 0, Computer: 0</p>
+    </div>
   <script src="scripts.js"></script>
 </body>
-
 </html>
