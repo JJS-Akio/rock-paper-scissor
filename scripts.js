@@ -1,9 +1,10 @@
 const startgame = document.getElementById('startgame');
 const gameButtons = document.getElementById('game-buttons');
 const gameInfo = document.getElementById('game-info');
-const timerElement = document.getElementById('timer');
 const resultElement = document.getElementById('result');
 const scoreElement = document.getElementById('score');
+const choiceElement = document.getElementById('choice')
+const finalResultElement = document.getElementById('finalResult')
 
 let humanScore = 0;
 let computerScore = 0;
@@ -11,7 +12,7 @@ let roundsPlayed = 0;
 
 startgame.addEventListener('click', () => {
     createDust(startgame, 100, () => {
-        startgame.style.display = 'none';  // Hide the original button
+        startgame.style.display = 'none';
         gameButtons.classList.remove('hidden');
         const buttons = gameButtons.querySelectorAll('.game-button');
         buttons.forEach(button => {
@@ -34,36 +35,44 @@ function playRoundWithTimer(userChoice, computerChoice) {
     roundsPlayed++;
     gameButtons.classList.add('hidden');
     gameInfo.classList.remove('hidden');
-    let countdown = 3;
 
     const interval = setInterval(() => {
-        timerElement.textContent = countdown;
-        countdown--;
-        if (countdown < 0) {
             clearInterval(interval);
+
             const result = playRound(userChoice, computerChoice);
-            resultElement.textContent = `Your choice: ${userChoice}, Computer's choice: ${computerChoice}. ${result}`;
+            setTimeout(() => {
+                resultElement.textContent =  `${result}`;
+            }, 1000)
+
             if (result === "Nice win, take is slow and breath, next round might not be as easy") {
                 humanScore++;
             } else if (result === "You blind or what, do not lose the next round") {
                 computerScore++;
             }
-            scoreElement.textContent = `You: ${humanScore}, Computer: ${computerScore}`;
+            //current score
+            setTimeout(() => {
+                scoreElement.textContent = `You: ${humanScore}, Computer: ${computerScore}`;
+            }, 1000)
+
             if (roundsPlayed < 5) {
                 setTimeout(() => {
                     gameInfo.classList.add('hidden');
                     gameButtons.classList.remove('hidden');
-                }, 2000);
+                }, 1000);
+
             } else {
                 setTimeout(() => {
                     displayFinalResult();
-                }, 2000);
+                }, 1000);
             }
-        }
+
     }, 1000);
 }
 
 function displayFinalResult() {
+    choiceElement.style.display = 'none';
+    resultElement.style.display = 'none';
+    scoreElement.style.display = 'none';
     let finalMessage = `Final score - You: ${humanScore}, Computer: ${computerScore}\n`;
     if (humanScore > computerScore) {
         finalMessage += "Close one, robots won't rule yet!";
@@ -72,7 +81,12 @@ function displayFinalResult() {
     } else {
         finalMessage += "Probably should not happen but if it did we are in a matrix";
     }
-    alert(finalMessage);
+    setTimeout(() => {
+        finalResultElement.display = 'block';
+        finalResultElement.textContent = `\n ${finalMessage}`;
+    }, 3000)
+    finalResultElement.display = 'none';
+
 }
 
 function getRandomArbitrary() {
