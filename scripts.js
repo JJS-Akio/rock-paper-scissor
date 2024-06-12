@@ -54,7 +54,7 @@ async function playRoundWithTimer(userChoice, computerChoice) {
         scoreElement.textContent = `You: ${humanScore}, Computer: ${computerScore}`;
     }, 2000);
 
-    if (humanScore === 1 || computerScore === 1) {
+    if (humanScore === 5 || computerScore === 5) {
         setTimeout(() => {
             displayFinalResult();
         }, 3000);
