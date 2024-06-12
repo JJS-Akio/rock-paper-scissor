@@ -38,6 +38,7 @@ async function playRoundWithTimer(userChoice, computerChoice) {
     
     const result = playRound(userChoice, computerChoice);
     setTimeout(() => {
+        choiceElement.textContent = `User Choose: ${userChoice}, Computer Choose: ${computerChoice}`
         resultElement.textContent = `${result}`;
     }, 1000);
 
