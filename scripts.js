@@ -9,6 +9,7 @@ const finalResultElement = document.getElementById('finalResult')
 let humanScore = 0;
 let computerScore = 0;
 let roundsPlayed = 0;
+let tie = 0;
 
 startgame.addEventListener('click', () => {
     createDust(startgame, 100, () => {
@@ -31,49 +32,48 @@ gameButtons.addEventListener('click', (event) => {
     }
 });
 
-function playRoundWithTimer(userChoice, computerChoice) {
-    roundsPlayed++;
+async function playRoundWithTimer(userChoice, computerChoice) {
     gameButtons.classList.add('hidden');
     gameInfo.classList.remove('hidden');
-
-    const interval = setInterval(() => {
-            clearInterval(interval);
-
-            const result = playRound(userChoice, computerChoice);
-            setTimeout(() => {
-                resultElement.textContent =  `${result}`;
-            }, 1000)
-
-            if (result === "Nice win, take is slow and breath, next round might not be as easy") {
-                humanScore++;
-            } else if (result === "You blind or what, do not lose the next round") {
-                computerScore++;
-            }
-            //current score
-            setTimeout(() => {
-                scoreElement.textContent = `You: ${humanScore}, Computer: ${computerScore}`;
-            }, 1000)
-
-            if (roundsPlayed < 5) {
-                setTimeout(() => {
-                    gameInfo.classList.add('hidden');
-                    gameButtons.classList.remove('hidden');
-                }, 1000);
-
-            } else {
-                setTimeout(() => {
-                    displayFinalResult();
-                }, 1000);
-            }
-
+    
+    const result = playRound(userChoice, computerChoice);
+    setTimeout(() => {
+        resultElement.textContent = `${result}`;
     }, 1000);
+
+    if (result === "Nice win, take is slow and breath, next round might not be as easy") {
+        humanScore++;
+    } else if (result === "You blind or what, do not lose the next round") {
+        computerScore++;
+    }
+    else {
+        tie++;
+    }
+    // Update the current score
+    setTimeout(() => {
+        scoreElement.textContent = `You: ${humanScore}, Computer: ${computerScore}`;
+    }, 2000);
+
+    if (humanScore === 1 || computerScore === 1) {
+        setTimeout(() => {
+            displayFinalResult();
+        }, 3000);
+    } else {
+        setTimeout(() => {
+            gameInfo.classList.add('hidden');
+            gameButtons.classList.remove('hidden');
+        }, 3000);
+    }
+    resultElement.textContent = '';
+    scoreElement.textContent = '';
 }
 
 function displayFinalResult() {
     choiceElement.style.display = 'none';
     resultElement.style.display = 'none';
     scoreElement.style.display = 'none';
-    let finalMessage = `Final score - You: ${humanScore}, Computer: ${computerScore}\n`;
+
+    let finalMessage = `Final score - You: ${humanScore}, Computer: ${computerScore}, Tie: ${tie}\n`;
     if (humanScore > computerScore) {
         finalMessage += "Close one, robots won't rule yet!";
     } else if (humanScore < computerScore) {
@@ -81,12 +81,14 @@ function displayFinalResult() {
     } else {
         finalMessage += "Probably should not happen but if it did we are in a matrix";
     }
-    setTimeout(() => {
-        finalResultElement.display = 'block';
-        finalResultElement.textContent = `\n ${finalMessage}`;
-    }, 3000)
-    finalResultElement.display = 'none';
 
+    setTimeout(() => {
+        finalResultElement.style.display = 'block';
+        finalResultElement.textContent = `\n${finalMessage}`;
+        setTimeout (() => {
+            finalResultElement.style.display = 'none';
+        }, 3000)
+    }, 3000);
 }
 
 function getRandomArbitrary() {

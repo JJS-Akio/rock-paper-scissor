@@ -21,6 +21,10 @@ body, html {
     display: none;
 }
 
+#finalResultElement {
+    display: none;
+}
+
 .game-button {
     margin: 5px;
     opacity: 0;
